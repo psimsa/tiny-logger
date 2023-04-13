@@ -34,7 +34,7 @@ public class TinyLoggerShould
         var logEntryLines = consoleOutput.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         Assert.Single(logEntryLines);
 
-        var logEntry = JsonSerializer.Deserialize<LogEntry>(logEntryLines[0]);
+        var logEntry = JsonSerializer.Deserialize<LogEntry>(logEntryLines[0], new JsonSerializerOptions(){PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
         Assert.NotNull(logEntry);
         Assert.Equal(LogLevel.Error.ToString(), logEntry.LogLevel);
         Assert.Equal(1, logEntry.EventId);
@@ -68,7 +68,7 @@ public class TinyLoggerShould
         var logEntryLines = consoleOutput.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         Assert.Equal(5, logEntryLines.Length);
 
-        var logEntries = logEntryLines.Select(line => JsonSerializer.Deserialize<LogEntry>(line)).ToList();
+        var logEntries = logEntryLines.Select(line => JsonSerializer.Deserialize<LogEntry>(line, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase })).ToList();
         for (int i = 0; i < 5; i++)
         {
             Assert.Equal(LogLevel.Information.ToString(), logEntries[i].LogLevel);

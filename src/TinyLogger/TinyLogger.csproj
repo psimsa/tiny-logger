@@ -5,6 +5,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
+        <Title>TinyLogger</Title>
+        <PackageId>Psimsa.$(AssemblyName)</PackageId>
+        <Authors>psimsa</Authors>
+        <PackageProjectUrl>https://github.com/psimsa/tiny-logger</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/psimsa/tiny-logger</RepositoryUrl>
+        <Description>Simple and fast ILogger implementation that is AOT-compliant and does not depend on any DI framework(s).</Description>
     </PropertyGroup>
 
     <ItemGroup>
