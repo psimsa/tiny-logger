@@ -6,7 +6,6 @@ using TinyLogger;
 namespace TinyLoggerBenchmark;
 
 [MemoryDiagnoser]
-//[SimpleJob(RuntimeMoniker.NativeAot70, iterationCount: 1)]
 [SimpleJob(RuntimeMoniker.Net70, iterationCount: 1)]
 public class TinyLoggerBenchmarks
 {
