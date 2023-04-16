@@ -71,10 +71,10 @@ public class TinyLoggerShould
         var logEntries = logEntryLines.Select(line => JsonSerializer.Deserialize<LogEntry>(line, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase })).ToList();
         for (int i = 0; i < 5; i++)
         {
-            Assert.Equal(LogLevel.Information.ToString(), logEntries[i].LogLevel);
-            Assert.Equal(i, logEntries[i].EventId);
-            Assert.Equal($"Test message {i}", logEntries[i].Message);
-            Assert.Null(logEntries[i].Exception);
+            Assert.Equal(LogLevel.Information.ToString(), logEntries[i]?.LogLevel);
+            Assert.Equal(i, logEntries[i]?.EventId);
+            Assert.Equal($"Test message {i}", logEntries[i]?.Message);
+            Assert.Null(logEntries[i]?.Exception);
         }
     }
 
