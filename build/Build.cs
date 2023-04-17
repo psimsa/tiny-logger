@@ -27,8 +27,8 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     "Build main and publish to nuget",
     GitHubActionsImage.UbuntuLatest,
     OnPushBranches = new[] { "main" },
-    InvokedTargets = new[] { nameof(Clean), nameof(Compile), nameof(Pack), nameof(PublishToGitHubNuget)/*, nameof(Publish)*/ },
-    /*ImportSecrets = new[] { nameof(NuGetApiKey) },*/
+    InvokedTargets = new[] { nameof(Clean), nameof(Compile), nameof(Pack), nameof(PublishToGitHubNuget), nameof(Publish) },
+    ImportSecrets = new[] { nameof(NuGetApiKey) },
     EnableGitHubToken = true)]
 
 class Build : NukeBuild
@@ -44,7 +44,7 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    // [Parameter][Secret] readonly string NuGetApiKey;
+    [Parameter][Secret] readonly string NuGetApiKey;
 
     [Solution(GenerateProjects = true)] readonly Solution Solution;
     GitHubActions GitHubActions => GitHubActions.Instance;
@@ -113,7 +113,7 @@ class Build : NukeBuild
             );
         });
 
-    /*Target Publish => _ => _
+    Target Publish => _ => _
         .DependsOn(Pack)
         .Consumes(Pack)
         .Requires(() => NuGetApiKey)
@@ -124,7 +124,7 @@ class Build : NukeBuild
                 .SetSource("https://api.nuget.org/v3/index.json")
                 .SetApiKey(NuGetApiKey)
             );
-        });*/
+        });
 
     Target PublishToGitHubNuget => _ => _
         .DependsOn(Pack)
