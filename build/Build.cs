@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using NuGet.Versioning;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
@@ -22,15 +23,14 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     InvokedTargets = new[] { nameof(Clean), nameof(Compile), nameof(Test), nameof(Pack), nameof(PublishToGitHubNuget) },
     EnableGitHubToken = true
 )]
-
 [GitHubActions(
     "Build main and publish to nuget",
     GitHubActionsImage.UbuntuLatest,
     OnPushBranches = new[] { "main" },
-    InvokedTargets = new[] { nameof(Clean), nameof(Compile), nameof(Pack), nameof(PublishToGitHubNuget), nameof(Publish) },
+    InvokedTargets = new[]
+        { nameof(Clean), nameof(Compile), nameof(Pack), nameof(PublishToGitHubNuget), nameof(Publish) },
     ImportSecrets = new[] { nameof(NuGetApiKey) },
     EnableGitHubToken = true)]
-
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -38,18 +38,22 @@ class Build : NukeBuild
     ///   - JetBrains Rider            https://nuke.build/rider
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
-
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Parameter][Secret] readonly string NuGetApiKey;
+    [Parameter] [Secret] readonly string NuGetApiKey;
 
     [Solution(GenerateProjects = true)] readonly Solution Solution;
     GitHubActions GitHubActions => GitHubActions.Instance;
 
     [GitRepository] readonly GitRepository Repository;
+
+    [LatestNuGetVersion(
+        packageId: "Psimsa.TinyLogger",
+        IncludePrerelease = false)]
+    readonly NuGetVersion TinyLoggerVersion;
 
     readonly AbsolutePath ArtifactsDirectory = RootDirectory / "artifacts";
 
@@ -58,7 +62,6 @@ class Build : NukeBuild
         .Executes(() =>
         {
             EnsureCleanDirectory(ArtifactsDirectory);
-
         });
 
     Target Restore => _ => _
@@ -94,20 +97,33 @@ class Build : NukeBuild
 
     Target Pack => _ => _
         .DependsOn(Test)
+        .DependsOn(Clean)
         .Produces(ArtifactsDirectory / "*.nupkg")
         .Executes(() =>
         {
-            var versionSuffix = GitHubActions?.RunNumber != null ? $"{GitHubActions.RunNumber}" : "0";
+            var newMajor = 0;
+            var newMinor = 1;
+            var newPatch = TinyLoggerVersion.Patch + 1;
 
-            if (!Repository.IsOnMainOrMasterBranch())
-                versionSuffix += "-preview";
+            if (newMajor > TinyLoggerVersion.Major)
+            {
+                newMinor = 0;
+                newPatch = 0;
+            }
+            else if (newMinor > TinyLoggerVersion.Minor)
+            {
+                newPatch = 0;
+            }
+
+            var newVersion = new NuGetVersion(newMajor, newMinor, newPatch,
+                Repository.IsOnMainOrMasterBranch() ? null : $"preview{GitHubActions?.RunNumber ?? 0}");
 
             DotNetPack(_ => _
                 .SetConfiguration(Configuration)
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetNoBuild(true)
                 .SetNoRestore(true)
-                .SetVersion($"0.1.{versionSuffix}")
+                .SetVersion(newVersion.ToString())
                 .SetVerbosity(DotNetVerbosity.Normal)
                 .SetProject(Solution.src.TinyLogger)
             );
@@ -137,5 +153,4 @@ class Build : NukeBuild
                 .SetApiKey(GitHubActions.Token)
             );
         });
-
 }
