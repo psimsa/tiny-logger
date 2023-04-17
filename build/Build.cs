@@ -20,7 +20,14 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     "Continuous build",
     GitHubActionsImage.UbuntuLatest,
     OnPushBranchesIgnore = new[] { "main" },
-    InvokedTargets = new[] { nameof(Clean), nameof(Compile), nameof(Test), nameof(Pack), nameof(PublishToGitHubNuget) },
+    InvokedTargets = new[] { nameof(Clean), nameof(Compile), nameof(Test), nameof(Pack)},
+    EnableGitHubToken = true
+)]
+[GitHubActions(
+    "Manual publish to Github Nuget",
+    GitHubActionsImage.UbuntuLatest,
+    On = new [] { GitHubActionsTrigger.WorkflowDispatch },
+    InvokedTargets = new[] { nameof(Pack), nameof(PublishToGitHubNuget) },
     EnableGitHubToken = true
 )]
 [GitHubActions(
