@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net7.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net7.0;netstandard2.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <Choose>
-        <When Condition="'$(TargetFramework)' == 'netstandard2.1'">
+        <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
             <ItemGroup>
                 <PackageReference Include="System.Text.Json" Version="7.0.2" />
             </ItemGroup>
