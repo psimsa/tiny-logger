@@ -12,6 +12,7 @@
         <RepositoryUrl>https://github.com/psimsa/tiny-logger</RepositoryUrl>
         <Description>Simple and fast ILogger implementation that is AOT-compliant and does not depend on any DI framework(s).</Description>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>logging;console</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
