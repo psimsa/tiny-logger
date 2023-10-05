@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace TinyLogger;
+﻿namespace TinyLogger;
 
 public class LogEntry
 {
@@ -12,9 +10,4 @@ public class LogEntry
     public string? Exception { get; set; }
 
     public Dictionary<string, string?>? State { get; set; }
-}
-
-[JsonSerializable(typeof(LogEntry))]
-internal partial class LogEntryJsonContext : JsonSerializerContext
-{
 }

@@ -1,6 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
+
 using Microsoft.Extensions.Logging;
+
 using TinyLogger;
 
 namespace TinyLoggerBenchmark;

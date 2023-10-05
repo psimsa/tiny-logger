@@ -6,11 +6,13 @@ namespace TinyLogger.Tests;
 
 public class TinyLoggerShould
 {
-    [Fact]
-    public void LogJsonToConsole_GivenValidInput()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task LogJsonToConsole_GivenValidInput(bool useGenericLogger)
     {
         // Arrange
-        var logger = new TinyLogger<DummyClass>();
+        ILogger logger = useGenericLogger ? new TinyLogger<DummyClass>() : new TinyLogger("DummyCategory");
         var message = "Test message";
         var exception = new Exception("Test exception");
 
@@ -24,7 +26,7 @@ public class TinyLoggerShould
         logger.Log(LogLevel.Error, new EventId(1), message, exception, (s, e) => s);
 
         // Give the logger enough time to flush the entry
-        Task.Delay(1000).Wait();
+        await Task.Delay(1000);
 
         // Reset console output to the original value
         Console.SetOut(originalConsoleOut);
@@ -42,11 +44,13 @@ public class TinyLoggerShould
         Assert.Equal(exception.ToString(), logEntry.Exception);
     }
 
-    [Fact]
-    public void FlushEntriesOnDispose()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void FlushEntriesOnDispose(bool useGenericLogger)
     {
         // Arrange
-        var logger = new TinyLogger<DummyClass>();
+        ILogger logger = useGenericLogger ? new TinyLogger<DummyClass>() : new TinyLogger("DummyCategory");
 
         // Redirect console output to a StringWriter
         var stringBuilder = new StringBuilder();
