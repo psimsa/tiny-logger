@@ -9,7 +9,7 @@ public class TinyLoggerShould
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public void LogJsonToConsole_GivenValidInput(bool useGenericLogger)
+    public async Task LogJsonToConsole_GivenValidInput(bool useGenericLogger)
     {
         // Arrange
         ILogger logger = useGenericLogger ? new TinyLogger<DummyClass>() : new TinyLogger("DummyCategory");
@@ -26,7 +26,7 @@ public class TinyLoggerShould
         logger.Log(LogLevel.Error, new EventId(1), message, exception, (s, e) => s);
 
         // Give the logger enough time to flush the entry
-        Task.Delay(1000).Wait();
+        await Task.Delay(1000);
 
         // Reset console output to the original value
         Console.SetOut(originalConsoleOut);
