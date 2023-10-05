@@ -9,7 +9,7 @@ The library provides basic feature set for logging to the console while being us
 - Outputs structured logs in JSON format
 - Minimal footprint in terms of memory usage, allocations etc.
 - Supports log levels, log templates and code-generated log methods
-- Can be used in any .Net project, including .Net Standard libraries (from 2.1)
+- Can be used in any .Net project, including .Net Standard libraries (from 2.0)
 - Can be used in code-generated DI containers (e.g. `Pure.DI`)
 - Performs well in container or cloud scenarios where console output is captured by the runtime and further analyzed in e.g. CloudWatch or Application Insights
 - Performance comparable with `Microsoft.Extensions.Logging` (see benchmarks project in `test` folder / snapshot below)
