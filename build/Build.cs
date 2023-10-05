@@ -103,8 +103,8 @@ class Build : NukeBuild
         .Produces(ArtifactsDirectory / "*.nupkg")
         .Executes(() =>
         {
-            var newMajor = 0;
-            var newMinor = 1;
+            var newMajor = 1;
+            var newMinor = 0;
             var newPatch = TinyLoggerVersion.Patch + 1;
 
             if (newMajor > TinyLoggerVersion.Major)
