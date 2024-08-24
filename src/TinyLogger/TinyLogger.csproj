@@ -1,37 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>net6.0;net7.0;netstandard2.0</TargetFrameworks>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <LangVersion>latest</LangVersion>
-        <Title>TinyLogger</Title>
-        <PackageId>Psimsa.$(AssemblyName)</PackageId>
-        <Authors>psimsa</Authors>
-        <PackageProjectUrl>https://github.com/psimsa/tiny-logger</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/psimsa/tiny-logger</RepositoryUrl>
-        <Description>Simple and fast ILogger implementation that is AOT-compliant and does not depend on any DI framework(s).</Description>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>logging;console</PackageTags>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<Title>TinyLogger</Title>
+		<PackageId>Psimsa.$(AssemblyName)</PackageId>
+		<Authors>psimsa</Authors>
+		<PackageProjectUrl>https://github.com/psimsa/tiny-logger</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/psimsa/tiny-logger</RepositoryUrl>
+		<Description>Simple and fast ILogger implementation that is AOT-compliant and does not depend on any DI framework(s).</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>logging;console</PackageTags>
+	</PropertyGroup>
 
-    <ItemGroup>
-      <None Include="..\..\README.md">
-        <Pack>True</Pack>
-        <PackagePath>\</PackagePath>
-      </None>
-    </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
-    </ItemGroup>
-
-    <Choose>
-        <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
-            <ItemGroup>
-                <PackageReference Include="System.Text.Json" Version="7.0.4" />
-            </ItemGroup>
-        </When>
-    </Choose>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+		<PackageReference Include="System.Text.Json" Version="8.0.4" />
+	</ItemGroup>
 
 </Project>
