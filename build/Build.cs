@@ -93,7 +93,7 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetNoBuild(true)
                 .SetNoRestore(true)
-                .SetVerbosity(DotNetVerbosity.Normal)
+                .SetVerbosity(DotNetVerbosity.normal)
             );
         });
 
@@ -126,7 +126,7 @@ class Build : NukeBuild
                 .SetNoBuild(true)
                 .SetNoRestore(true)
                 .SetVersion(newVersion.ToString())
-                .SetVerbosity(DotNetVerbosity.Normal)
+                .SetVerbosity(DotNetVerbosity.normal)
                 .SetProject(Solution.src.TinyLogger)
             );
         });

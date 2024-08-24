@@ -2,9 +2,6 @@
 
 namespace TinyLogger;
 
-public class TinyLogger<T>: TinyLogger, ILogger<T>
+public class TinyLogger<T>(TinyLoggerConfiguration? configuration = null) : TinyLogger(typeof(T)?.FullName ?? "TinyLogger", configuration), ILogger<T>
 {
-    public TinyLogger(TinyLoggerConfiguration? configuration = null) : base(typeof(T)?.FullName ?? "TinyLogger", configuration)
-    {        
-    }
 }
